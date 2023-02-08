@@ -14,9 +14,33 @@ namespace CSharpSystProgLesson1
         const uint MB_ICONWARNING = 0x0000030;
         const uint MB_CANCELTRYCONTINUE = 0x00000006;
         const uint MB_DEFBUTTON2 = 0x00000100;
+        const uint MB_YESNOCANCEL = 0x00000003;
+
+
+        static int MyMessageBox(int number)
+        {
+           return MessageBox(IntPtr.Zero, "YES - число угадано верно," + "NO - загаданное число меньше," + "Cancel - загаданное число больше \n Может быть вы загадали " + number.ToString(),
+                "Угадай число", MB_YESNOCANCEL | MB_DEFBUTTON2);
+
+
+
+        }
         static void Main(string[] args)
         {
-            MessageBox(IntPtr.Zero, "Hello World", "Warning!", MB_ICONWARNING | MB_CANCELTRYCONTINUE | MB_DEFBUTTON2);
+            int minNumber = 0;
+            int maxNumber = 100;
+            Random rnd = new Random();
+            int result = rnd.Next(minNumber, maxNumber);
+            int answer = 0;
+            while ((answer = MyMessageBox(result)) != 6)
+            {
+                if (answer == 2) { minNumber = result; result = rnd.Next(minNumber, maxNumber); }
+                if (answer == 7) { maxNumber = result; result = rnd.Next(minNumber, maxNumber); }
+            }
+             MessageBox(IntPtr.Zero, "Ура! Я прочитал ваши мысли! Число " + result.ToString(), " Число угадано ", 0x0);
+
+
+            //MessageBox(IntPtr.Zero, "Hello World", "Warning!", MB_ICONWARNING | MB_CANCELTRYCONTINUE | MB_DEFBUTTON2);
             //общение с процессами 
             //Process process = new Process();
             //устанавливаем запуск процесса
